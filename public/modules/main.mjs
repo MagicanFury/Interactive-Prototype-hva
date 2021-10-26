@@ -1,3 +1,9 @@
+import { ModalService } from "./services/ModalService.js"
+import { ViewService } from "./services/ViewService.js"
+
+var modalService = ModalService.get()
+var viewService = ViewService.get()
+
 const ROUTES = {
     Statistics: {
         
@@ -54,10 +60,17 @@ function navigateBackFromNestedPage() {
     }
 }
 
-function showNestedPage({ key, selector, title }) {
+function showNestedPage({ view, selector, overrideTitle }) {
+    const { title, $element } = viewService.loadView(view)
+
     const $nestedPage = $(selector)
     $nestedPage.find('.ios-back-label[href="#back"]').text(getPageTitle())
-    $nestedPage.find('.navigation .title span').text(title)
+    $nestedPage.find('.navigation .title span').text(overrideTitle || title)
+    // Clear & Set Content
+    const $content = $nestedPage.find('.content')
+    $content.html('')
+    $content.append($element)
+
     $nestedPage.css({ opacity: 0, top: '10px' })
     $nestedPage.addClass('active')
     $nestedPage.animate({ opacity: 1, top: 0 }, 150)
@@ -71,13 +84,40 @@ function setViewHeight() {
 }
 
 function centerPhonePosition() {
+    const DEFAULT_PHONE_HEIGHT = 736
+    const MARGIN_AROUND_PHONE = 32
+
     const $phone = $('.phone')
-    const fullHeight = window.innerHeight
-    const height = $phone.height()
-    const margin = (fullHeight - height) / 2
+    const viewHeight = window.innerHeight
+    const contentHeight = DEFAULT_PHONE_HEIGHT + MARGIN_AROUND_PHONE * 2
+    if (viewHeight < contentHeight) {
+        const scale = Math.round(viewHeight / contentHeight * 1000) / 1000
+        $phone.css({ zoom: scale })
+    }
     $phone.css({
-        'margin-top': Math.floor(margin),
-        'margin-bottom': Math.ceil(margin)
+        'margin-top': MARGIN_AROUND_PHONE,
+        'margin-bottom': MARGIN_AROUND_PHONE
+    })
+}
+
+function createListHandlersStatistics() {
+    $('#statistics li').click(e => {
+        e.preventDefault()
+
+        modalService.popup({
+            title: `Delete "Spend"`,
+            message: `Deleting "Spend" will also delete all of its data.`,
+            type: ModalService.MODAL_TYPES.DELETE_CANCEL
+        }).on([
+            // Delete
+            () => {
+                console.log('DELETE')
+            },
+            // Cancel
+            () => {
+                console.log('CANCEL')
+            }
+        ])
     })
 }
 
@@ -85,8 +125,12 @@ function createListHandlersWorkout() {
     $('#workouts li').click(e => {
         e.preventDefault()
 
-        const title = $(e.target).closest('li').find('.title').text()
-        showNestedPage({ key: title, selector: '.page-workout-i', title })
+        const $li = $(e.target).closest('li')
+        if ($li.find('.inactive').length === 0) {
+            const view = $li.find('[loadview]').attr('loadview')
+            const overrideTitle = $li.find('.title').text()
+            showNestedPage({ view, key: title, selector: '.page-workout-i', overrideTitle })
+        }
     })
 }
 
@@ -121,8 +165,13 @@ function main() {
     setViewHeight()
     centerPhonePosition()
     createListHandlersWorkout()
+    createListHandlersStatistics()
 }
 
 $(_ => {
     main()
+
+    $(window).resize(() => {
+        centerPhonePosition()
+    })
 })

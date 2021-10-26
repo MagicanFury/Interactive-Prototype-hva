@@ -22,7 +22,7 @@
 
 <body>
     <div class="phone">
-        <div class="status"></div>
+        <div class="container status"></div>
 
         <div class="container content">
 
@@ -37,7 +37,7 @@
                 </header>
                 
                 <div class="ios-h1">Statistics</div>
-                <ul class="ios-list">
+                <ul id="statistics" class="ios-list">
                     <li>
                         <div class="title">Item 1</div>
                     </li>
@@ -65,10 +65,19 @@
                 <div class="ios-h1">Workouts</div>
                 <ul id="workouts" class="ios-list">
                     <li>
-                        <div class="title">Pushup</div>
+                        <div loadview="workout_plank" class="title">Plank</div>
                     </li>
                     <li>
-                        <div class="title">Plank</div>
+                        <div loadview="workout_kneepushup" class="title">Knee Pushup</div>
+                    </li>
+                    <li>
+                        <div class="title inactive">Situps (Not Unlocked Yet)</div>
+                    </li>
+                    <li>
+                        <div class="title inactive">Pushup (Not Unlocked Yet)</div>
+                    </li>
+                    <li>
+                        <div class="title inactive">Butterflies (Not Unlocked Yet)</div>
                     </li>
                 </ul>
             </div>
@@ -93,7 +102,9 @@
                     </ul>
                 </header>
 
-                <div class="ios-h1">...</div>
+                <div class="content">
+
+                </div>
             </div>
         </div>
         <div class="container footer">
@@ -110,10 +121,6 @@
         </div>
     </div>
 
-
-    <script type="module">
-
-    </script>
 </body>
 
 </html>
