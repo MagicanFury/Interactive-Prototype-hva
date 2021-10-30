@@ -1,9 +1,13 @@
 import workout_plank from '../views/workout_plank.js'
 import workout_kneepushup from '../views/workout_kneepushup.js'
+import statistics_plank from '../views/statistics_plank.js'
+import statistics_kneepushup from '../views/statistics_kneepushup.js'
 
 const views = {
     workout_plank,
-    workout_kneepushup
+    workout_kneepushup,
+    statistics_plank,
+    statistics_kneepushup
 }
 
 export class ViewService {
@@ -26,7 +30,7 @@ export class ViewService {
     }
 
     constructor() {
-        this.workouts = views
+        this.views = views
     }
 
     /**
@@ -34,15 +38,17 @@ export class ViewService {
      * @returns {{title: string, $element: any}}
      */
     loadView(key) {
-        if (!this.workouts.hasOwnProperty(key)) {
+        if (!this.views.hasOwnProperty(key)) {
             throw new Error(`ViewService.workouts[${key}] doesn't exist!`)
         }
-        return this.workouts[key]()
+        return this.views[key]()
     }
 
 }
 
 ViewService.VIEWS = {
     'workout_plank': 'workout_plank',
-    'workout_kneepushup': 'workout_plank'
+    'workout_kneepushup': 'workout_plank',
+    'statistics_plank': 'statistics_plank',
+    'statistics_kneepushup': 'statistics_kneepushup'
 }

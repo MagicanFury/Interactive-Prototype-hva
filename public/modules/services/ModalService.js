@@ -21,8 +21,9 @@ export class ModalService {
 
     }
 
-    popup({ title, message, type }) {
-        this.events = []
+    popup({ title, message, type, cls }) {
+        const emptyFunction = () => {}
+        this.events = type.map(_ => { return emptyFunction })
         const $phone = $('.phone')
 
         const modalBtns = type.map(text => (`
@@ -33,7 +34,7 @@ export class ModalService {
         
         const $modal = $(`
             <div class="ios-modal-container">
-                <div class="ios-modal">
+                <div class="ios-modal ${ cls || ''}">
                     <div class="ios-h1-center">${ title }</div>
                     <div class="ios-message">${ message }</div>
                     <div class="ios-btn-group row">
@@ -69,7 +70,9 @@ export class ModalService {
 
     on(options) {
         options.map((optionCallback, i) => {
-            this.events[i] = optionCallback
+            if (optionCallback != null) {
+                this.events[i] = optionCallback
+            }
         })
     }
 
@@ -91,5 +94,7 @@ export class ModalService {
 
 ModalService.MODAL_TYPES = {
     CLOSE: ['Close'],
-    DELETE_CANCEL: ['Delete', 'Cancel']
+    DELETE_CANCEL: ['Delete', 'Cancel'],
+    YES_NO: ['Yes', 'No'],
+    OK: ['OK']
 }

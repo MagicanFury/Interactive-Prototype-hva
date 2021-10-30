@@ -1,22 +1,43 @@
 :root {
+    /* --header-color: #dddddd;
+    --link-color: #0080ff;
+    --footer-color: #cacaca;
+    --border-color: #c6c5c7;
+    --icon-color: #929292;
+    --list-back-color: #9393a8;
+    --list-item-color: #9393a8;
+    --inactive-item-color: #c4c4c4;
+
+    --font-family: 'fangsong';
+    --status-background: none;
+    --status-color: #dddddd;
+     */
+    
     --header-color: #f6f6f6;
     --link-color: #3692ed;
     --footer-color: #f6f6f6;
     --border-color: #c6c5c7;
     --icon-color: #929292;
     --list-back-color: #f2f2f7;
+    --list-item-color: #fff;
     --inactive-item-color: #c4c4c4;
+    --subtitle-color: #929292;
+    --danger-color: #ff0000;
+
+    --status-background: url(/img/status.png);
+   
 }
 
 html, body {
     background: #fff;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    /* font-family: "San Francisco" */
+    /* font-family: var(--font-family); */
 }
 
 body {
-    overflow: hidden;
+    /* overflow: hidden; */
+    zoom: 0.7;
 }
 
 a[href] {
@@ -34,6 +55,7 @@ a[href] {
         margin-top: 80px;
         margin-bottom: 80px;
         border-radius: 8px;
+        overflow: hidden;
     }
 
     .phone::after {
@@ -46,8 +68,17 @@ a[href] {
     }
 }
 
+.phone.is-in-nested .footer {
+    height: 0;
+}
+
+.phone.is-in-nested .container.content {
+    height: 100% !important;
+}
+
 .status {
-    background-image: url(/img/status.png);
+    background-image: var(--status-background);
+    background-color: var(--status-color);
     background-size: cover;
     width: 100%;
     height: 21px;
@@ -97,9 +128,13 @@ a[href] {
     margin-left: auto;
 }
 
+.container.content {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .content {
     position: relative;
-    overflow: hidden;
     padding: 0;
     height: calc(100% - 148px);
 }
@@ -133,6 +168,11 @@ a[href] {
     /* opacity: 1; */
 }
 
+.content .page.hasNestedPage > :not(.nested-page) {
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* .content .page.nested-page.active {
     pointer-events: all;
 } */
@@ -144,6 +184,7 @@ a[href] {
     height: 80px;
     bottom: 0;
     box-shadow: 0 0 3px var(--border-color);
+    overflow: hidden;
 }
 
 .footer a {
@@ -180,7 +221,7 @@ a[href] {
     width: 100%;
     padding: 10px 10px 0 12px;
     list-style-type: none;
-    background: #fff;
+    background: var(--list-item-color);
     transition: 0.3s background-color ease-out;
     cursor: pointer;
 }
@@ -208,6 +249,12 @@ a[href] {
 
 .ios-h1-center {
     font-size: 18pt;
+}
+
+
+.ios-subtitle {
+    font-size: 13pt;
+    color: var(--subtitle-color)
 }
 
 .ios-modal-container {
@@ -265,6 +312,10 @@ a[href] {
     padding: 12px 0;
 }
 
+.ios-modal-container .ios-modal.modal-danger .ios-btn-group .ios-btn {
+    color: var(--danger-color);
+}
+
 
 
 
@@ -288,11 +339,35 @@ a[href] {
     font-size: 1.2em;
 }
 
-.btn.full-width + .btn.full-width {
-    margin-top: 12px;
+.ios-search-container { 
+    padding: 6px 8px;
+}
+
+.ios-search-container input {
+    border: 1px solid;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 1px 2px #aeaeae73;
+}
+
+.ios-list i {
+    color: var(--icon-color);
 }
 
 
+.ios-search-container input,
+.ios-search-container input:focus,
+.ios-search-container input:active,
+.ios-search-container input:hover {
+    border: 1px transparent;
+    outline: 0;
+}
+
+
+.hidden {
+    display: none;
+}
 
 .justify-content-stretch {
     justify-content: stretch;
@@ -305,3 +380,12 @@ a[href] {
     font-weight: 400;
     src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+
+/* ::-webkit-scrollbar-thumb {
+    background: #FF0000;
+} */
