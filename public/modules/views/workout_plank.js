@@ -25,7 +25,7 @@ export default function() {
         title: undefined,
         $element: $(`
             <div class="container">
-                <div class="row text-center" style="height: calc(100% - 50px);">
+                <div class="row text-center flexible-height">
                     <p class="col-12 pr">
                         <span>Personal Record: </span> <span>01:35</span>
                     </p>
@@ -41,7 +41,6 @@ export default function() {
             </div>
         `),
         onShow({ $element, goBack }) {
-            debugger;
             const $btns = $element.find('.btn')
             const $start = $btns.eq(0)
             const $stop  = $btns.eq(1)

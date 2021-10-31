@@ -23,35 +23,119 @@
 </head>
 
 <body>
-    <div class="phone">
+    <div class="hidden">
+
+    </div>
+    <div class="phone" version="B">
         <div class="container status"></div>
 
         <div class="container content">
+            <div class="menu-flyout">
+                <a href="#close">
+                    <i class="fas fa-times"></i>
+                </a>
+                <div class="full-width text-center hidden" style="margin-top: 8px;">
+                    <div class="profile-info force-text-left">
+                        <div class="ios-h2">example@hotmail.com</div>
+                    </div>
+                </div>
 
-            <div class="page page-home ios-list-page active">
+                <div class="ios-label">Navigation</div>
+                <ul class="ios-list">
+                    <li uid="workout" class="active">
+                        <div>
+                            <span class="icon-container">
+                                <i class="fas fa-running"></i>
+                            </span>
+                            <span>Workouts</span>
+                        </div>
+                    </li>
+                    <li uid="statistics">
+                        <div>
+                            <span class="icon-container">
+                                <i class="fas fa-chart-line"></i>
+                            </span>
+                            <span>Statistics</span>
+                        </div>
+                    </li>
+                    <li uid="profile">
+                        <div>
+                            <span class="icon-container">
+                                <i class="fas fa-tasks"></i>
+                            </span>
+                            <span>Profile</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <br>
+                
+                <div class="ios-label">Quick Menu</div>
+                <ul class="ios-list">
+                    <li>
+                        <div uid="null">
+                            <span class="icon-container">
+                                <!-- <i class="fas fa-info"></i> -->
+                                <i class="far fa-question-circle"></i>
+                            </span>
+                            <span>Instructions</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div href="#rateApp" uid="null">
+                            <span class="icon-container">
+                                <i class="far fa-star"></i>
+                            </span>
+                            <span>Rate the app</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div href="#share" uid="null">
+                            <span class="icon-container">
+                                <i class="fas fa-share-alt"></i>
+                            </span>
+                            <span>Share Profile</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div uid="statistics" class="page page-workout ios-list-page">
                 
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
                         <li class="nav-item title">
                             <span>Statistics</span>
                         </li>
                     </ul>
                 </header>
                 
-                <ul id="statistics" class="ios-list">
-                    <li>
-                        <div loadview="statistics_plank" class="title">Plank</div>
-                    </li>
-                    <li>
-                        <div loadview="statistics_kneepushup" class="title">Knee Pushup</div>
-                    </li>
-                </ul>
+                <div class="ios-scrollable">
+                    <ul id="statistics" class="ios-list">
+                        <li>
+                            <div loadview="statistics_plank" class="title">Plank</div>
+                        </li>
+                        <li>
+                            <div loadview="statistics_kneepushup" class="title">Knee Pushup</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="page page-stats ios-list-page">
+            <div uid="workout" class="page page-statistics ios-list-page active">
                 
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
                         <li class="nav-item title">
                             <span>Workouts</span>
                         </li>
@@ -61,160 +145,216 @@
                 <div class="ios-search-container">
                     <input id="search" type="text" placeholder="Search" /> 
                 </div>
-                
-                <ul id="workouts" class="ios-list">
-                    <li>
-                        <div loadview="workout_plank" class="title">Plank</div>
-                    </li>
-                    <li>
-                        <div loadview="workout_kneepushup" class="title">Knee Pushup</div>
-                    </li>
-                    <li>
-                        <div class="title inactive">Situps (Not Unlocked Yet)</div>
-                    </li>
-                    <li>
-                        <div class="title inactive">Pushup (Not Unlocked Yet)</div>
-                    </li>
-                    <li>
-                        <div class="title inactive">Butterflies (Not Unlocked Yet)</div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Bridge (Not Unlocked Yet)
+                <div class="ios-scrollable">
+                    <ul id="workouts-A" class="ios-list">
+                        <li>
+                            <div loadview="workout_plank" class="title">Plank</div>
+                        </li>
+                        <li>
+                            <div loadview="workout_kneepushup" class="title">Knee Pushup</div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Situps (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Pushup (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Butterflies (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Bridge (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Chair squat (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Stationary lunge (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Plank to Downward Dog (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Straight-leg donkey kick (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Bird Dog (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Forearm plank (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Side-lying hip abduction (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Bicycle crunch (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Single-leg bridge (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Squat (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Walking lunge (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Pike pushups (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Get-up squat (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Superman (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Plank with alternating leg lift (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Dead bug (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Bridge with leg extended (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Overhead squat (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                One-legged pushup (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Jumping lunges (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Elevated pike pushups (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Get-up squat with jump (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Advanced Bird Dog (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                One-leg or one-arm plank (Not Unlocked Yet)
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title inactive">
+                                Side plank with hip abduction (Not Unlocked Yet)
+                            </div>
+                        </li>
+                    </ul>
+                    <div id="workouts-B" class="container ios-list" style="padding: 0 19px">
+                        <div class="row">
+                            <div loadview="workout_plank" class="card title col-6">
+                                Plank
+                            </div>
+                            <div loadview="workout_kneepushup" class="card title col-6">
+                                Knee pushup
+                            </div>
+                            
+                            <div class="inactive ios-label text-center col-12">
+                                Not Unlocked
+                            </div>
+                            <div class="inactive card title col-6">Situps</div>
+                            <div class="inactive card title col-6">Pushup</div>
+                            <div class="inactive card title col-6">Butterflies</div>
+                            <div class="inactive card title col-6">Bridge</div>
+                            <div class="inactive card title col-6">Chair squat</div>
+                            <div class="inactive card title col-6">Stationary lunge</div>
+                            <div class="inactive card title col-6">Plank to Downward Dog</div>
+                            <div class="inactive card title col-6">Straight-leg donkey kick</div>
+                            <div class="inactive card title col-6">Bird Dog</div>
+                            <div class="inactive card title col-6">Forearm plank</div>
+                            <div class="inactive card title col-6">Side-lying hip abduction</div>
+                            <div class="inactive card title col-6">Bicycle crunch</div>
+                            <div class="inactive card title col-6">Single-leg bridge</div>
+                            <div class="inactive card title col-6">Squat</div>
+                            <div class="inactive card title col-6">Walking lunge</div>
+                            <div class="inactive card title col-6">Pike pushups</div>
+                            <div class="inactive card title col-6">Get-up squat</div>
+                            <div class="inactive card title col-6">Superman</div>
+                            <div class="inactive card title col-6">Plank with alternating leg lift</div>
+                            <div class="inactive card title col-6">Dead bug</div>
+                            <div class="inactive card title col-6">Bridge with leg extended</div>
+                            <div class="inactive card title col-6">Overhead squat</div>
+                            <div class="inactive card title col-6">One-legged pushup</div>
+                            <div class="inactive card title col-6">Jumping lunges</div>
+                            <div class="inactive card title col-6">Elevated pike pushups</div>
+                            <div class="inactive card title col-6">Get-up squat with jump</div>
+                            <div class="inactive card title col-6">Advanced Bird Dog</div>
+                            <div class="inactive card title col-6">One-leg or one-arm plank</div>
+                            <div class="inactive card title col-6">Side plank with hip abduction</div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Chair squat (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Stationary lunge (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Plank to Downward Dog (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Straight-leg donkey kick (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Bird Dog (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Forearm plank (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Side-lying hip abduction (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Bicycle crunch (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Single-leg bridge (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Squat (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Walking lunge (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Pike pushups (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Get-up squat (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Superman (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Plank with alternating leg lift (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Dead bug (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Bridge with leg extended (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Overhead squat (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            One-legged pushup (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Jumping lunges (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Elevated pike pushups (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Get-up squat with jump (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Advanced Bird Dog (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            One-leg or one-arm plank (Not Unlocked Yet)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="title inactive">
-                            Side plank with hip abduction (Not Unlocked Yet)
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+
             </div>
             
-            <div class="page page-profile ios-list-page">
+            <div uid="profile" class="page page-profile ios-list-page">
                 
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
                         <li class="nav-item title">
                             <span>Profile</span>
                         </li>
@@ -222,30 +362,15 @@
                 </header>
                 
                 <div class="full-width text-center" style="margin-top: 8px;">
-                    <img src="/img/loading.png" style="margin: 0 auto;">
-                    
-                    <span class="lvl" style="
-                        position: absolute;
-                        left: 0;
-                        right: 0;
-                        top: 116px;
-                        font-size: 60pt;
-                        font-family: sans-serif;
-                        color: #f2f2f7;
-                        text-shadow: 0 1px 7px #5a5a5ad1;
-                    ">
-                        <span style="font-size: 37pt;">Lv.</span>
-                        <span>2</span>
-                    </span>
-                    
-                    <span class="ios-subtitle" style="
-                    position: absolute;
-                    top: 210px;
-                    left: 0;
-                    right: 0;
-                    font-style: italic;
-                ">(2 Workouts till Lv. 3)</span>
-
+                    <div class="profile-info">
+                        <img src="/img/loading.png" style="margin: 0 auto;">
+                        <span class="lvl">
+                            <span style="font-size: 37pt;">Lv.</span>
+                            <span>2</span>
+                        </span>
+                        <span class="ios-subtitle lvl-subtitle">(2 Workouts till Lv. 3)</span>
+                        
+                    </div>
                 </div>
 
                 <div class="full-width text-center">
@@ -253,30 +378,32 @@
                     <br/>
                 </div>
 
-                <ul id="list" class="ios-list">
-                    <li>
-                        <div id="rateApp" class="title">
-                            <i class="fas fa-star"></i>
-                            Rate App
-                        </div>
-                    </li>
-                    <li>
-                        <div id="share" class="title">
-                            <i class="fas fa-share"></i>
-                            Share Account
-                        </div>
-                    </li>
-                </ul>
+                <div class="ios-not-scrollable">
+                    <ul id="list" class="ios-list">
+                        <li>
+                            <div href="#rateApp" class="title">
+                                <i class="fas fa-star"></i>
+                                Rate App
+                            </div>
+                        </li>
+                        <li>
+                            <div href="#share" class="title">
+                                <i class="fas fa-share"></i>
+                                Share Profile
+                            </div>
+                        </li>
+                    </ul>
 
-                <br/>
+                    <br/>
 
-                <ul id="list2" class="ios-list">
-                    <li>
-                        <div id="resetProfile" class="title text-center" style="color: red;">
-                            Reset Profile
-                        </div>
-                    </li>
-                </ul>
+                    <ul id="list2" class="ios-list">
+                        <li>
+                            <div href="#resetProfile" class="title text-center" style="color: red;">
+                                Reset Profile
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="template page nested-page">
@@ -305,15 +432,15 @@
         </div>
         <div class="container footer">
             <div class="d-flex justify-content-stretch">
-                <a href="#nav1" class="p2 active">
+                <a href="#nav" uid="statistics" class="p2">
                     <i class="fas fa-chart-line"></i>
                     Statistics
                 </a>
-                <a href="#nav2" class="p2">
+                <a href="#nav" uid="workout" class="p2 active">
                     <i class="fas fa-running"></i>
                     Workout
                 </a>
-                <a href="#nav3" class="p2">
+                <a href="#nav" uid="profile" class="p2">
                     <i class="fas fa-tasks"></i>
                     Profile
                 </a>

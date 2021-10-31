@@ -4,50 +4,116 @@ import { ViewService } from "./services/ViewService.js"
 var modalService = ModalService.get()
 var viewService = ViewService.get()
 
-const ROUTES = {
-    Statistics: {
-        
-    },
-    Workout: {
-
-    }
-}
-
 const $pages = $('.page')
+const $footer = $('.footer')
+const $flyout = $('.menu-flyout')
 const $footerLinks = $('.footer a')
+const $flyoutLinks = $('.menu-flyout [uid]')
 
 let title = ''
 let selectedPage = null
 let selectedPageI = -1
+let selectedPageUid = null
 let nestedPage = null
 
-
-function selectTabbarPage({ i, $a }) {
-    // Tabbar Logic
-    $footerLinks.each((i, a) => {
-        $(a).removeClass('active')
+function getPageIndex($page) {
+    let pageIndex = null
+    const $pages = $('.phone > .content > .page')
+    $pages.each((i, page) => {
+        if ($(page).is($page)) {
+            pageIndex = i
+        }
     })
-    $a.addClass('active')
+    if (pageIndex === null) {
+        console.error(`couldn't get page: `, $page)
+    }
+    return pageIndex
+}
+
+function initPages() {
+    selectedPage = $('.phone > .content > .page.active')
+    selectedPageI = getPageIndex(selectedPage)
+    selectedPageUid = selectedPage.attr('uid')
+}
+
+function toggleFlyout($flyout, forcedValue) {
+    $flyout.toggleClass('active', forcedValue)
+    $('.phone').toggleClass('flyout-enabled', $flyout.is('.active'))
+}
+
+function createFlyoutHandlers() {
+    const $flyout = $('.menu-flyout')
+    const $hamburgers = $('.nav-item.flyout')
+    $hamburgers.each((i, hamburger) => {
+        const $hamburger = $(hamburger)
+        $hamburger.click(e => {
+            e.preventDefault()
+            toggleFlyout($flyout, true)
+        })
+    })
+    $flyout.find('[href="#close"]').click(e => {
+        e.preventDefault()
+        toggleFlyout($flyout)
+    })
+
+    $flyout.find('[uid]').each((i, a) => {
+        const $a = $(a)
+        const uid = $a.attr('uid')
+        $a.click(e => {
+            e.preventDefault()
+            selectPage({ uid, skipAnimation: true })
+            toggleFlyout($flyout, false)
+        })
+    })
+}
+
+function createTabbarHandlers() {
+    $footerLinks.each((i, a) => {
+        const $a = $(a)
+        const uid = $a.attr('uid')
+        $a.click(e => {
+            e.preventDefault()
+            selectPage({ uid })
+        })
+    })
+}
+
+function selectPage({ uid, skipAnimation }) {
+    const pageToSelect = $pages.filter(`[uid="${uid}"]`).eq(0)
+    const pageToSelectIndex = getPageIndex(pageToSelect)
+    if (selectedPageUid === uid || pageToSelect.length === 0 || pageToSelectIndex === null) {
+        return
+    }
+    const ANIMATION_TIME = (skipAnimation === true) ? 0 : 300
+
+    console.log('Loading uid=' + uid)
+    // Tabbar Logic
+    $flyoutLinks.each((i, a) => { $(a).removeClass('active') })
+    $footerLinks.each((i, a) => { $(a).removeClass('active') })
+    $flyout.find(`[uid="${uid}"]`).addClass('active')
+    $footer.find(`[uid="${uid}"]`).addClass('active')
 
     // Page Logic
-    const moveLeft = (i < selectedPageI)
     const lastSelectedPage = selectedPage
     const width = lastSelectedPage.outerWidth()
+
+    selectedPage = pageToSelect
+    const moveLeft = (pageToSelectIndex < selectedPageI)
     
     lastSelectedPage.animate({
         left: (moveLeft) ? width : -width
-    }, 300, function() {
+    }, ANIMATION_TIME, function() {
         lastSelectedPage.removeClass('active')
     })
 
-    selectedPage = $pages.eq(i)
     selectedPage.css({ left: (moveLeft) ? -width : width })
 
     selectedPage.addClass('active')
-    selectedPage.animate({ left: 0 }, 300, function() {
-
+    selectedPage.animate({ left: 0 }, ANIMATION_TIME, function() {
+        console.log('Done animating to page', { selectedPage, selectedPageI })
     })
-    selectedPageI = i
+    selectedPageI = pageToSelectIndex
+    selectedPageUid = uid
 }
 
 function navigateBackFromNestedPage({ parent, view, $nestedPage }) {
@@ -124,23 +190,23 @@ function setNestedPageHeight() {
 }
 
 function centerPhonePosition() {
+    const $phone = $('.phone')
+    const DEFAULT_PHONE_HEIGHT = 736
+    const MARGIN_AROUND_PHONE = 24
     if ($('body').css('overflow-y') !== 'hidden') {
         return
     }
-    const DEFAULT_PHONE_HEIGHT = 736
-    const MARGIN_AROUND_PHONE = 32
+    $phone.css({
+        'margin-top': MARGIN_AROUND_PHONE + 'px',
+        'margin-bottom': MARGIN_AROUND_PHONE + 'px'
+    })
 
-    const $phone = $('.phone')
     const viewHeight = window.innerHeight
     const contentHeight = DEFAULT_PHONE_HEIGHT + MARGIN_AROUND_PHONE * 2
     if (viewHeight < contentHeight) {
         const scale = Math.round(viewHeight / contentHeight * 1000) / 1000
         $phone.css({ zoom: scale })
     }
-    $phone.css({
-        'margin-top': MARGIN_AROUND_PHONE,
-        'margin-bottom': MARGIN_AROUND_PHONE
-    })
 }
 
 function createListHandlersStatistics() {
@@ -175,20 +241,26 @@ function createListHandlersStatistics() {
 }
 
 function createListHandlersWorkout() {
-    $('#workouts li').click(e => {
+    $('#workouts-A,#workouts-B').find('.card').each((i, ele) => {
+        const $ele = $(ele)
+        if ($ele.is('.inactive') || $ele.find('.inactive').length > 0) {
+            $ele.html($ele.text() + `<br/> (Lv. ${ $ele.index() } Required)`)
+        }
+    })
+    $('#workouts-A,#workouts-B').find('li,.card').click(e => {
         e.preventDefault()
 
-        const $li = $(e.target).closest('li')
-        const isActive = ($li.find('.inactive').length === 0)
-        if (!isActive) {
+        const $li = $(e.target).closest('li,.card')
+        const isInactive = ($li.is('.inactive') || $li.find('.inactive').length > 0)
+        if (isInactive) {
             return modalService.popup({
                 title: 'Not Yet!',
                 message: `You have not unlocked this workout yet!<br>Lv. ${ $li.index() + 1 } is required`,
                 type: ModalService.MODAL_TYPES.OK
             })
         }
-        const view = $li.find('[loadview]').attr('loadview')
-        const overrideTitle = $li.find('.title').text()
+        const view = ($li.is('[loadview]') ? $li : $li.find('[loadview]')).attr('loadview')
+        const overrideTitle = ($li.is('[loadview') ? $li : $li.find('.title')).text()
         showNestedPage({
             parent: $li.closest('.page'),
             view,
@@ -204,12 +276,12 @@ function getPageTitle() {
 }
 
 function createSearchHandler() {
-    const $workouts = $('#workouts')
-    const $lis = $workouts.find('li')
+    const $workouts = $('#workouts-A,#workouts-B')
+    const $lis = $workouts.find('li,.card')
     const $search = $('#search')
-    $search.keyup(e => {
+    $search.keyup(_ => {
         const searchValue = $search.val().toLowerCase()
-        $lis.each((i, li) => {
+        $lis.each((_, li) => {
             const liText = $(li).text().trim().toLowerCase()
             const showLi = (liText.includes(searchValue))
             $(li).toggleClass('hidden', !showLi)
@@ -218,7 +290,7 @@ function createSearchHandler() {
 }
 
 function createProfileHandlers() {
-    $('#rateApp').click(e => {
+    $('[href="#rateApp"]').click(e => {
         e.preventDefault()
         modalService.popup({
             title: `Thank You!`,
@@ -226,7 +298,7 @@ function createProfileHandlers() {
             type: ModalService.MODAL_TYPES.OK
         })
     })
-    $('#share').click(e => {
+    $('[href="#share"]').click(e => {
         e.preventDefault()
         modalService.popup({
             title: `Thank You!`,
@@ -234,7 +306,7 @@ function createProfileHandlers() {
             type: ModalService.MODAL_TYPES.OK
         })
     })
-    $('#resetProfile').click(e => {
+    $('[href="#resetProfile"]').click(e => {
         e.preventDefault()
         modalService.popup({
             title: `Are you sure?`,
@@ -257,25 +329,20 @@ function main() {
     })
 
 
-    $footerLinks.each((i, a) => {
-        const $a = $(a)
-        selectedPage = $('.page.active')
-        selectedPageI = $('.page').toArray().map((page, i) => $(page).is(selectedPage) ? i : null).filter(v => v !== null).pop()
-
-        $a.click(e => {
-            e.preventDefault()
-            selectTabbarPage({ i, $a })
-        })
-    })
-
-
+    
+    
+    initPages()
     setViewHeight()
     centerPhonePosition()
     createSearchHandler()
     createListHandlersWorkout()
     createListHandlersStatistics()
     createProfileHandlers()
+    createTabbarHandlers()
     processUrlParams()
+
+    // Version B
+    createFlyoutHandlers()
 }
 
 function processUrlParams() {
@@ -288,6 +355,8 @@ function processUrlParams() {
             case 'zoom':
                 $('body').css({ zoom: value })
                 break;
+            case 'version':
+                $('.phone').attr(key, value)
         }
     })
 }

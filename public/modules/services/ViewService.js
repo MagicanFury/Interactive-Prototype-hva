@@ -52,3 +52,15 @@ ViewService.VIEWS = {
     'statistics_plank': 'statistics_plank',
     'statistics_kneepushup': 'statistics_kneepushup'
 }
+
+ViewService.ROUTES = {
+    Statistics: {
+        uid: 'statistics'
+    },
+    Workout: {
+        uid: 'workout'
+    },
+    Profile: {
+        uid: 'profile'
+    }
+}

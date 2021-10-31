@@ -14,6 +14,7 @@
      */
     
     --header-color: #f6f6f6;
+    --flyout-back-color: #f6f6f6;
     --link-color: #3692ed;
     --footer-color: #f6f6f6;
     --border-color: #c6c5c7;
@@ -36,8 +37,8 @@ html, body {
 }
 
 body {
-    /* overflow: hidden; */
-    zoom: 0.7;
+    overflow: auto;
+    zoom: 0.9;
 }
 
 a[href] {
@@ -68,12 +69,46 @@ a[href] {
     }
 }
 
+.phone[version="B"] .flexible-height {
+    height: calc(100% - 85px);
+}
+
+.phone:not([version="B"]) .flexible-height {
+    height: calc(100% - 140px);
+}
+
+.phone[version="B"] #workouts-A {
+    display: none;
+}
+
+.phone:not([version="B"]) #workouts-B {
+    display: none;
+}
+
+.phone[version="B"] .footer {
+    height: 0;
+}
+
+.phone[version="B"] .container.content {
+    height: 100% !important;
+}
+
+.phone > .content > .page > .ios-scrollable {
+    height: calc(100% - 106px);
+    overflow: auto;
+}
+
 .phone.is-in-nested .footer {
     height: 0;
 }
 
 .phone.is-in-nested .container.content {
     height: 100% !important;
+}
+
+
+.phone.flyout-enabled .status {
+    border-bottom: inset 1px #eae9ea;
 }
 
 .status {
@@ -121,6 +156,15 @@ a[href] {
     color: #000;
     font-size: 14pt;
     font-weight: 500;
+}
+
+.phone:not([version="B"]) .nav-item.flyout {
+    display: none;
+}
+
+.nav-item.flyout i {
+    margin: 0 10px;
+    color: #0000008f;
 }
 
 .nav-item:last-child {
@@ -215,6 +259,25 @@ a[href] {
 
 .ios-list {
     background: var(--list-back-color);
+}
+
+.ios-list .card {
+    padding: 10px;
+    background: var(--list-item-color);
+    cursor: pointer;
+    text-align: center;
+}
+
+.ios-list .ios-label {
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #a1a0a5;
+    padding-left: 10px;
+}
+
+
+.ios-list .card.inactive {
+    color: var(--inactive-item-color);
 }
 
 .ios-list li {
@@ -364,6 +427,74 @@ a[href] {
     outline: 0;
 }
 
+.menu-flyout {
+    background: var(--flyout-back-color);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    z-index: 15;
+    box-shadow: 0 0 3px var(--border-color);
+    margin-left: -300px;
+    transition: margin-left 0.6s ease-in-out;
+}
+
+.menu-flyout.active {
+    margin-left: 0;
+}
+
+.menu-flyout > a[href="#close"] {
+    font-size: 21pt;
+    padding: 0 9px;
+    color: #0000008f;
+}
+
+.menu-flyout [uid].active * {
+    color: var(--link-color) !important;
+}
+
+.menu-flyout [uid] .icon-container {
+    display: inline-block;
+    font-size: 1.5em;
+    width: 25px;
+    margin: 0 14px 0 0px;
+    text-align: center;
+}
+
+.lvl {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 116px;
+    font-size: 60pt;
+    font-family: sans-serif;
+    color: #f2f2f7;
+    text-shadow: 0 1px 7px #5a5a5ad1;
+}
+
+.lvl-subtitle {
+    position: absolute;
+    top: 210px;
+    left: 0;
+    right: 0;
+    font-style: italic;
+}
+
+.menu-flyout .profile-info {
+    padding: 8px;
+}
+
+.menu-flyout .ios-label {
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #a1a0a5;
+    padding-left: 10px;
+}
+
+.force-text-left {
+    text-align: left;
+}
+
 
 .hidden {
     display: none;
@@ -381,7 +512,7 @@ a[href] {
     src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
 
-::-webkit-scrollbar {
+.phone ::-webkit-scrollbar {
     width: 0px;
     background: transparent; 
 }

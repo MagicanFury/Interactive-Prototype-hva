@@ -30,7 +30,7 @@ export class ModalService {
             <button class="col ios-btn">
                 ${ text }
             </button>
-        `).trim())
+        `).trim()).join('')
         
         const $modal = $(`
             <div class="ios-modal-container">
