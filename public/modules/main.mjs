@@ -279,6 +279,7 @@ function createSearchHandler() {
     const $workouts = $('#workouts-A,#workouts-B')
     const $lis = $workouts.find('li,.card')
     const $search = $('#search')
+    const $searchContainer = $search.parent()
     $search.keyup(_ => {
         const searchValue = $search.val().toLowerCase()
         $lis.each((_, li) => {
@@ -286,6 +287,16 @@ function createSearchHandler() {
             const showLi = (liText.includes(searchValue))
             $(li).toggleClass('hidden', !showLi)
         })
+        const hasSearchQuery = ($search.val().length > 0)
+        $searchContainer.toggleClass('search-has-value', hasSearchQuery)
+    })
+
+    const $searchCancelBtn = $('.search-cancel')
+    $searchCancelBtn.click(e => {
+        e.preventDefault()
+
+        $search.val('')
+        $search.trigger('keyup')
     })
 }
 
@@ -359,6 +370,7 @@ function processUrlParams() {
                 $('.phone').attr(key, value)
         }
     })
+    $('.phone').css({ 'version': 'A' })
 }
 
 $(_ => {

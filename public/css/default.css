@@ -69,13 +69,14 @@ a[href] {
     }
 }
 
-.phone[version="B"] .flexible-height {
-    height: calc(100% - 85px);
-}
-
-.phone:not([version="B"]) .flexible-height {
+.phone .flexible-height {
+    /* height: calc(100% - 85px); */
     height: calc(100% - 140px);
 }
+
+/* .phone[version="B"] .flexible-height {
+    height: calc(100% - 140px);
+} */
 
 .phone[version="B"] #workouts-A {
     display: none;
@@ -85,16 +86,14 @@ a[href] {
     display: none;
 }
 
-.phone[version="B"] .footer {
-    height: 0;
-}
 
 .phone[version="B"] .container.content {
     height: 100% !important;
 }
 
 .phone > .content > .page > .ios-scrollable {
-    height: calc(100% - 106px);
+    /* height: calc(100% - 106px); */
+    height: calc(100% - 187px);
     overflow: auto;
 }
 
@@ -158,7 +157,7 @@ a[href] {
     font-weight: 500;
 }
 
-.phone:not([version="B"]) .nav-item.flyout {
+.phone .nav-item.flyout {
     display: none;
 }
 
@@ -180,7 +179,7 @@ a[href] {
 .content {
     position: relative;
     padding: 0;
-    height: calc(100% - 148px);
+    height: calc(100% - 148px) !important;
 }
 
 .content .page {
@@ -412,6 +411,24 @@ a[href] {
     width: 100%;
     text-align: center;
     box-shadow: 0 1px 2px #aeaeae73;
+    font-size: 1.3em;
+}
+
+.ios-search-container button {
+    display: none;
+}
+
+
+.ios-search-container.search-has-value input {
+    display: inline-block;
+    width: 75%;
+}
+
+
+.ios-search-container.search-has-value button {
+    display: inline-block;
+    width: 23%;
+    color: var(--link-color);
 }
 
 .ios-list i {
