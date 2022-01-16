@@ -60,6 +60,9 @@ ViewService.ROUTES = {
     Workout: {
         uid: 'workout'
     },
+    Exercises: {
+        uid: 'exercises'
+    },
     Profile: {
         uid: 'profile'
     }

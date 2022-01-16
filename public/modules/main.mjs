@@ -37,6 +37,9 @@ function initPages() {
 }
 
 function toggleFlyout($flyout, forcedValue) {
+    if (!$flyout || $flyout.length === 0) {
+        $flyout = $('.menu-flyout')
+    }
     $flyout.toggleClass('active', forcedValue)
     $('.phone').toggleClass('flyout-enabled', $flyout.is('.active'))
 }
@@ -334,10 +337,7 @@ function main() {
         e.preventDefault()
     })
 
-    $('[href="#back"]').click(e => {
-        e.preventDefault()
-        navigateBackFromNestedPage()
-    })
+    $('[href="#back"]').click(e => navigateBackFromNestedPage())
 
 
     
@@ -378,5 +378,26 @@ $(_ => {
 
     $(window).resize(() => {
         centerPhonePosition()
+    })
+
+    Object.assign(window, {
+        publicFunctions: {
+            getPageIndex,
+            initPages,
+            toggleFlyout,
+            createFlyoutHandlers,
+            createTabbarHandlers,
+            selectPage,
+            navigateBackFromNestedPage,
+            showNestedPage,
+            setViewHeight,
+            setNestedPageHeight,
+            centerPhonePosition,
+            createListHandlersStatistics,
+            createListHandlersWorkout,
+            getPageTitle,
+            createSearchHandler,
+            createProfileHandlers
+        }
     })
 })

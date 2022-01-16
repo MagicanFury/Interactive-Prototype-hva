@@ -244,7 +244,7 @@ a[href] {
 
 .footer a {
     color: var(--icon-color);
-    transition: 0.3s color ease-out;
+    transition: 0.3s color ease-in;
 }
 
 .footer a.active {
@@ -284,7 +284,7 @@ a[href] {
     padding: 10px 10px 0 12px;
     list-style-type: none;
     background: var(--list-item-color);
-    transition: 0.3s background-color ease-out;
+    transition: 0.3s background-color ease-in;
     cursor: pointer;
 }
 
@@ -327,7 +327,7 @@ a[href] {
     top: 0;
     bottom: 0;
     z-index: 11;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in;
     text-align: center;
     opacity: 0;
 }

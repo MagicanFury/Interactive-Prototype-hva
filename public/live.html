@@ -16,7 +16,8 @@
 
     <script src="/third-party/loadingjs/loading-bar.min.js"></script>
     <script src="/modules/main.mjs" type="module"></script>
-    <link rel="stylesheet" href="/third-party/fontawesome-free-5.15.4-web/css/all.css">
+    <link rel="stylesheet" href="/third-party/fontawesome-pro-5.15.3-web/css/all.css">
+    <!-- <link rel="stylesheet" href="/third-party/fontawesome-free-5.15.4-web/css/all.css"> -->
     <link rel="stylesheet" href="/third-party/loadingjs/loading-bar.min.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/default.css">
@@ -127,6 +128,21 @@
                 </div>
             </div>
 
+            <div uid="exercises" class="page page-exercises ios-list-page">
+                <header class="d-flex navigation">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item title">
+                            <span>Exercises</span>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+
             <div uid="workout" class="page page-statistics ios-list-page active">
                 
                 <header class="d-flex navigation">
@@ -191,11 +207,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             
             <div uid="profile" class="page page-profile ios-list-page">
-                
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
                         <li class="nav-item flyout">
@@ -284,9 +298,13 @@
                     <i class="fas fa-chart-line"></i>
                     Statistics
                 </a>
+                <!-- <a href="#nav" uid="exercises" class="p2">
+                    <i class="far fa-dumbbell"></i>
+                    Exercises
+                </a> -->
                 <a href="#nav" uid="workout" class="p2 active">
                     <i class="fas fa-running"></i>
-                    Workout
+                    Workouts
                 </a>
                 <a href="#nav" uid="profile" class="p2">
                     <i class="fas fa-tasks"></i>

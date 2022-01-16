@@ -69,13 +69,13 @@ export default function() {
             $finish.click(e => {
                 e.preventDefault()
 
-                // ModalService.get().popup({
-                //     title: `Good Work!`,
-                //     message: `Well done! Go get some rest & drink lots of water!`,
-                //     type: ModalService.MODAL_TYPES.OK
-                // }).on([goBack])
+                ModalService.get().popup({
+                    title: `Good Work!`,
+                    message: `Well done! Go get some rest & drink lots of water!`,
+                    type: ModalService.MODAL_TYPES.OK
+                }).on([goBack])
                 
-                return goBack()
+                // return goBack()
             })
         }
     }
