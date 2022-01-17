@@ -101,7 +101,7 @@
                 </ul>
             </div>
             
-            <div uid="statistics" class="page page-workout ios-list-page">
+            <div uid="statistics" class="page ios-list-page">
                 
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
@@ -128,6 +128,46 @@
                 </div>
             </div>
 
+            <div uid="workout" class="page ios-list-page active">
+                <header class="d-flex navigation">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item title">
+                            <span>Workouts</span>
+                        </li>
+                    </ul>
+                </header>
+                
+                <div class="ios-scrollable">
+                    <div id="workout-collection" class="container ios-list" style="padding: 0 19px">
+                        <div class="row">
+                            <div loadview="invite_friends" loadviewargs="workout_levels" class="card title col-6">
+                                AB Toner
+                            </div>
+                            <div class="card title col-6">
+                                Easy Chest Workout
+                            </div>
+                            <div class="card title col-6">
+                                AB Crusher
+                            </div>
+                            <div class="card title col-6">
+                                Medium Chest Workout
+                            </div>
+                            <div class="card title col-6">
+                                Shoulder Boulder
+                            </div>
+                            <div class="card title col-6">
+                                Hard Chest Workout
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div uid="exercises" class="page page-exercises ios-list-page">
                 <header class="d-flex navigation">
                     <ul class="nav nav-pills">
@@ -138,22 +178,6 @@
                         </li>
                         <li class="nav-item title">
                             <span>Exercises</span>
-                        </li>
-                    </ul>
-                </header>
-            </div>
-
-            <div uid="workout" class="page page-statistics ios-list-page active">
-                
-                <header class="d-flex navigation">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item flyout">
-                            <a href="#">
-                                <i class="fas fa-bars"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item title">
-                            <span>Workouts</span>
                         </li>
                     </ul>
                 </header>
@@ -251,7 +275,13 @@
                         <li>
                             <div href="#share" class="title">
                                 <i class="fas fa-share"></i>
-                                Share Profile
+                                Share Profile (Usercode #AZ74)
+                            </div>
+                        </li>
+                        <li>
+                            <div href="#friends" class="title">
+                                <i class="fas fa-share"></i>
+                                Friends
                             </div>
                         </li>
                     </ul>
@@ -298,13 +328,13 @@
                     <i class="fas fa-chart-line"></i>
                     Statistics
                 </a>
-                <!-- <a href="#nav" uid="exercises" class="p2">
-                    <i class="far fa-dumbbell"></i>
-                    Exercises
-                </a> -->
                 <a href="#nav" uid="workout" class="p2 active">
-                    <i class="fas fa-running"></i>
+                    <i class="far fa-dumbbell"></i>
                     Workouts
+                </a>
+                <a href="#nav" uid="exercises" class="p2">
+                    <i class="fas fa-running"></i>
+                    Exercises
                 </a>
                 <a href="#nav" uid="profile" class="p2">
                     <i class="fas fa-tasks"></i>

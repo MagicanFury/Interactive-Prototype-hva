@@ -120,7 +120,7 @@ function selectPage({ uid, skipAnimation }) {
 }
 
 function navigateBackFromNestedPage({ parent, view, $nestedPage }) {
-    console.log('>> BACK')
+    console.log('>> BACK', parent)
     if ($nestedPage) {
         if (!parent.hasClass('hasNestedPage')) {
             console.error(`Parent doesn't have class hasNestedPage!!`)
@@ -134,8 +134,8 @@ function navigateBackFromNestedPage({ parent, view, $nestedPage }) {
     }
 }
 
-function showNestedPage({ parent, view, overrideTitle }) {
-    const { title, $element, onShow } = viewService.loadView(view)
+function showNestedPage({ parent, view, overrideTitle }, pageArgs) {
+    const { title, $element, onShow } = viewService.loadView(view, pageArgs)
 
     const $nestedPage = $('.template.nested-page').clone()
     $nestedPage.removeClass('template')
@@ -172,14 +172,18 @@ function showNestedPage({ parent, view, overrideTitle }) {
                 parent,
                 $nestedPage,
                 $element,
-                goBack: () => navigateBackFromNestedPage({ parent, view, $nestedPage })
+                goBack: () => {
+                    navigateBackFromNestedPage({ parent, view, $nestedPage })
+                    if (pageArgs.callback) {
+                        pageArgs.callback(pageArgs.callbackArgs)
+                    }
+                }
             })
         } catch (err) {
             console.error(err)
         }
     }
 }
-
 
 function setViewHeight() {
     const subtract = Math.round($('.status').height() + $('.footer').height())
@@ -263,19 +267,83 @@ function createListHandlersWorkout() {
             })
         }
         const view = ($li.is('[loadview]') ? $li : $li.find('[loadview]')).attr('loadview')
-        const overrideTitle = ($li.is('[loadview') ? $li : $li.find('.title')).text()
+        const overrideTitle = ($li.is('[loadview]') ? $li : $li.find('.title')).text()
         showNestedPage({
             parent: $li.closest('.page'),
             view,
             key: title,
             overrideTitle
         })
-    
+    })
+}
+
+function createListHandlersWorkoutCollection() {
+    const colors = [
+        '#F90D1B',
+        '#FE6006',
+        '#FDE005',
+        '#EC00FC',
+        '#9D00FE',
+        '#00CF35'
+    ]
+    const getColor = () => {
+        const returnVal = colors.shift()
+        colors.push(returnVal)
+        return returnVal
+    }
+    $('#workout-collection').find('.card').each((i, ele) => {
+        const $ele = $(ele)
+        if ($ele.is('.inactive') || $ele.find('.inactive').length > 0) {
+            $ele.html($ele.text() + `<br/> (Lv. ${ $ele.index() } Required)`)
+        }
+        $ele.css({
+            'background': getColor(),
+            'color': '#fff'
+        })
+    })
+    $('#workout-collection').find('li,.card').click(e => {
+        e.preventDefault()
+
+        const $li = $(e.target).closest('li,.card')
+        const isInactive = ($li.is('.inactive') || $li.find('.inactive').length > 0)
+        if (isInactive) {
+            return modalService.popup({
+                title: 'Not Yet!',
+                message: `You have not unlocked this workout yet!<br>Lv. ${ $li.index() + 1 } is required`,
+                type: ModalService.MODAL_TYPES.OK
+            })
+        }
+        const $viewEle = ($li.is('[loadview]') ? $li : $li.find('[loadview]'))
+        const view = $viewEle.attr('loadview')
+        const viewargs = $viewEle.attr('loadviewargs')
+        const overrideTitle = ($li.is('[loadview') ? $li : $li.find('.title')).text()
+        showNestedPage({
+            parent: $li.closest('.page'),
+            view,
+            key: title,
+            overrideTitle
+        }, {
+            callback: ({ loadview, friends }) => {
+                if (!loadview) {
+                    return
+                }
+                showNestedPage({
+                    parent: $li.closest('.page'),
+                    view: loadview,
+                    key: title,
+                    overrideTitle
+                }, { friends })
+            },
+            viewargs
+        })
     })
 }
 
 function getPageTitle() {
-    return selectedPage.find('.navigation .title').text()
+    const $title = selectedPage.find('.navigation .title')
+    console.log($title)
+    debugger;
+    return $title.text()
 }
 
 function createSearchHandler() {
@@ -303,6 +371,14 @@ function createSearchHandler() {
     })
 }
 
+function showInviteModal() {
+    modalService.popup({
+        title: `Invite!`,
+        message: `Enola has invited you for the workout<br>"Easy Chest Workout"<br>would you like to accept?`,
+        type: ModalService.MODAL_TYPES.YES_NO
+    })
+}
+
 function createProfileHandlers() {
     $('[href="#rateApp"]').click(e => {
         e.preventDefault()
@@ -318,6 +394,15 @@ function createProfileHandlers() {
             title: `Thank You!`,
             message: `You've shared the app!`,
             type: ModalService.MODAL_TYPES.OK
+        })
+    })
+    $('[href="#friends"]').click(e => {
+        e.preventDefault()
+        
+        showNestedPage({
+            parent: $(e.target).closest('.page'),
+            view: ViewService.ROUTES.Friends.uid,
+            overrideTitle: 'Friends'
         })
     })
     $('[href="#resetProfile"]').click(e => {
@@ -347,6 +432,7 @@ function main() {
     centerPhonePosition()
     createSearchHandler()
     createListHandlersWorkout()
+    createListHandlersWorkoutCollection()
     createListHandlersStatistics()
     createProfileHandlers()
     createTabbarHandlers()
@@ -397,7 +483,8 @@ $(_ => {
             createListHandlersWorkout,
             getPageTitle,
             createSearchHandler,
-            createProfileHandlers
+            createProfileHandlers,
+            showInviteModal
         }
     })
 })

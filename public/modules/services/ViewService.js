@@ -1,13 +1,19 @@
+import invite_friends from '../views/invite_friends.js'
+import workout_levels from '../views/workout_levels.js'
 import workout_plank from '../views/workout_plank.js'
 import workout_kneepushup from '../views/workout_kneepushup.js'
 import statistics_plank from '../views/statistics_plank.js'
 import statistics_kneepushup from '../views/statistics_kneepushup.js'
+import friends from '../views/friends.js'
 
 const views = {
     workout_plank,
     workout_kneepushup,
     statistics_plank,
-    statistics_kneepushup
+    statistics_kneepushup,
+    invite_friends,
+    workout_levels,
+    friends
 }
 
 export class ViewService {
@@ -37,11 +43,11 @@ export class ViewService {
      * @param {*} key 
      * @returns {{title: string, $element: any}}
      */
-    loadView(key) {
+    loadView(key, pageArgs) {
         if (!this.views.hasOwnProperty(key)) {
             throw new Error(`ViewService.workouts[${key}] doesn't exist!`)
         }
-        return this.views[key]()
+        return this.views[key](pageArgs)
     }
 
 }
@@ -65,5 +71,8 @@ ViewService.ROUTES = {
     },
     Profile: {
         uid: 'profile'
+    },
+    Friends: {
+        uid: 'friends'
     }
 }
