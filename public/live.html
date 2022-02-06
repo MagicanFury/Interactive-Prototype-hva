@@ -25,12 +25,49 @@
 
 <body>
     <div class="hidden">
-
     </div>
     <div class="phone" version="B">
         <div class="container status"></div>
 
         <div class="container content">
+            <div class="alerts"></div>
+            <div class="first-open">
+                <div class="fo-step fo-step-1">
+                    <h2>Welcome to the family!</h2>
+                    <br>
+                    <button class="btn btn-primary next-step mb-2" style="width: 70%">Enter goals</button>
+                    <button class="btn btn-secondary skip-step" style="width: 70%">Skip</button>
+                    <br>
+                </div>
+                <div class="fo-step fo-step-2 hidden">
+                    <h2>What are your goals?</h2>
+                    <br>
+                    <input type="checkbox" name="" id="l1"> <label for="l1">Lose weight</label> <br>
+                    <input type="checkbox" name="" id="l2"> <label for="l2">Gain weight</label> <br>
+                    <input type="checkbox" name="" id="l3"> <label for="l3">Improve Endurance</label> <br>
+                    <input type="checkbox" name="" id="l4"> <label for="l4">Grow Muscles</label> <br>
+                    <input type="checkbox" name="" id="l5"> <label for="l5">Increase Flexibility</label> <br>
+                    <br>
+                    <button class="btn btn-primary next-step" style="width: 70%">Save</button>
+                </div>
+                <div class="fo-step fo-step-3 hidden">
+                    <h2>We value your privacy!</h2>
+                    <h4>Would you like to know more about how we processes your personal data?</h4>
+                    
+                    <button class="btn btn-primary next-step mb-2" style="width: 70%">Tell me more</button>
+                    <button class="btn btn-secondary skip-step" style="width: 70%">Skip</button>
+                </div>
+                <div class="fo-step fo-step-4 hidden">
+                    <h2>Privacy</h2>
+                    <ul class="mb-2">
+                        <li>We value your privacy!</li>
+                        <li>We comply with the international & local privacy laws</li>
+                        <li>Because you're our priority, we won't sell any of your personal data</li>
+                        <li>If you would like to see what data is available to other users go to the profile tab & press privacy settings</li>
+                    </ul>
+                    <button class="btn btn-primary next-step mb-2" style="width: 70%">Close</button>
+                </div>
+            </div>
             <div class="menu-flyout">
                 <a href="#close">
                     <i class="fas fa-times"></i>
@@ -167,6 +204,46 @@
                     </div>
                 </div>
             </div>
+            
+            <div uid="challenges" class="page ios-list-page">
+                <header class="d-flex navigation">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item flyout">
+                            <a href="#">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item title">
+                            <span>Challenges</span>
+                        </li>
+                    </ul>
+                </header>
+                
+                <div class="ios-scrollable">
+                    <div id="workout-collection" class="container ios-list" style="padding: 0 19px">
+                        <div class="row">
+                            <div loadview="invite_friends" loadviewargs="workout_levels" class="card title col-6">
+                                AB Toner
+                            </div>
+                            <div class="card title col-6">
+                                Easy Chest Workout
+                            </div>
+                            <div class="card title col-6">
+                                AB Crusher
+                            </div>
+                            <div class="card title col-6">
+                                Medium Chest Workout
+                            </div>
+                            <div class="card title col-6">
+                                Shoulder Boulder
+                            </div>
+                            <div class="card title col-6">
+                                Hard Chest Workout
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div uid="exercises" class="page page-exercises ios-list-page">
                 <header class="d-flex navigation">
@@ -194,6 +271,9 @@
                             </div>
                             <div loadview="workout_kneepushup" class="card title col-6">
                                 Knee pushup
+                            </div>
+                            <div loadview="workout_minimarathon" class="card title col-6">
+                                Mini Marathon
                             </div>
                             
                             <div class="inactive ios-label text-center col-12">
@@ -322,7 +402,7 @@
                 </div>
             </div>
         </div>
-        <div class="container footer">
+        <div class="container footer" style="padding-left: 0; padding-right: 0;">
             <div class="d-flex justify-content-stretch">
                 <a href="#nav" uid="statistics" class="p2">
                     <i class="fas fa-chart-line"></i>
@@ -332,6 +412,10 @@
                     <i class="far fa-dumbbell"></i>
                     Workouts
                 </a>
+                <!-- <a href="#nav" uid="challenges" class="p2">
+                    <i class="fas fa-crown"></i>
+                    Challenges
+                </a> -->
                 <a href="#nav" uid="exercises" class="p2">
                     <i class="fas fa-running"></i>
                     Exercises

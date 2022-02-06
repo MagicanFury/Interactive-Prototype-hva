@@ -22,7 +22,7 @@ function stopTimer() {
 
 export default function() {
     return {
-        title: undefined,
+        title: 'Plank',
         $element: $(`
             <div class="container">
                 <div class="row text-center flexible-height">

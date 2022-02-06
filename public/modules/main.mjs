@@ -16,6 +16,19 @@ let selectedPageI = -1
 let selectedPageUid = null
 let nestedPage = null
 
+let allPaths = {}
+let currentPath = []
+
+initCurrentPath()
+
+function initCurrentPath() {
+    let baseTitle = $('.phone > .content > [uid].page.active > header .title').eq(0).text().trim()
+    if (!allPaths.hasOwnProperty(baseTitle)) {
+        allPaths[baseTitle] = [baseTitle]
+    }
+    currentPath = allPaths[baseTitle]
+}
+
 function getPageIndex($page) {
     let pageIndex = null
     const $pages = $('.phone > .content > .page')
@@ -107,6 +120,8 @@ function selectPage({ uid, skipAnimation }) {
         left: (moveLeft) ? width : -width
     }, ANIMATION_TIME, function() {
         lastSelectedPage.removeClass('active')
+        initCurrentPath()
+        console.log('path', currentPath)
     })
 
     selectedPage.css({ left: (moveLeft) ? -width : width })
@@ -115,28 +130,49 @@ function selectPage({ uid, skipAnimation }) {
     selectedPage.animate({ left: 0 }, ANIMATION_TIME, function() {
         console.log('Done animating to page', { selectedPage, selectedPageI })
     })
+
     selectedPageI = pageToSelectIndex
     selectedPageUid = uid
 }
 
-function navigateBackFromNestedPage({ parent, view, $nestedPage }) {
-    console.log('>> BACK', parent)
+function navigateBackFromNestedPages() {
+    while (currentPath.length > 1) {
+        // console.log(nestedPage)
+        // const parent = $('[uid].page.active')
+        // const $nestedPage = $('[uid].page.active').find('.page.hasNestedPage').eq(0)
+        navigateBackFromNestedPage({ parent: nestedPage.closest('.page.hasNestedPage'), $nestedPage: nestedPage })
+    }
+}
+
+function navigateBackFromNestedPage({ parent, $nestedPage }) {
+    allPaths[currentPath[0]].pop()
+    currentPath = allPaths[currentPath[0]]
+    console.log('path', currentPath)
+
+    $('[uid].page.active > header > ul > .title').toggleClass('hidden', currentPath.length !== 1)
+
     if ($nestedPage) {
         if (!parent.hasClass('hasNestedPage')) {
             console.error(`Parent doesn't have class hasNestedPage!!`)
         }
-        parent.removeClass('hasNestedPage')
-        $nestedPage.animate({ opacity: 0 }, 150, () => {
-            $nestedPage.remove()
-            $nestedPage = null
+        parent.toggleClass('hasNestedPage', nestedPage != null)
+        let $closestNestedPage = $nestedPage.closest('.page.hasNestedPage')
+        $closestNestedPage.removeClass('hasNestedPage')
+
+        let $toDelete = $nestedPage
+        $toDelete.animate({ opacity: 0 }, 150, () => {
+            $toDelete.remove()
             // $('.phone').removeClass('is-in-nested')
         })
+        $nestedPage = $closestNestedPage.length ? $closestNestedPage : null
+        nestedPage = $nestedPage
     }
 }
 
 function showNestedPage({ parent, view, overrideTitle }, pageArgs) {
     const { title, $element, onShow } = viewService.loadView(view, pageArgs)
 
+    const displayTitle = overrideTitle || title
     const $nestedPage = $('.template.nested-page').clone()
     $nestedPage.removeClass('template')
     
@@ -146,14 +182,14 @@ function showNestedPage({ parent, view, overrideTitle }, pageArgs) {
 
     $nestedPage.find('[href="#back"]').click(e => {
         e.preventDefault()
-        navigateBackFromNestedPage({ parent, view, $nestedPage })
+        navigateBackFromNestedPage({ parent, $nestedPage })
     })
 
     parent.prepend($nestedPage)
     parent.addClass('hasNestedPage')
 
-    $nestedPage.find('.ios-back-label[href="#back"]').text(getPageTitle())
-    $nestedPage.find('.navigation .title span').text(overrideTitle || title)
+    $nestedPage.find('.ios-back-label[href="#back"]').text(currentPath[currentPath.length - 1])
+    $nestedPage.find('.navigation .title span').text(displayTitle)
     // Clear & Set Content
     const $content = $nestedPage.find('.content')
     $content.html('')
@@ -166,6 +202,10 @@ function showNestedPage({ parent, view, overrideTitle }, pageArgs) {
     nestedPage = $nestedPage
     setNestedPageHeight()
 
+    allPaths[currentPath[0]].push((displayTitle || '').trim())
+    currentPath = allPaths[currentPath[0]]
+    console.log('path', currentPath)
+
     if (onShow) {
         try {
             onShow({
@@ -174,7 +214,7 @@ function showNestedPage({ parent, view, overrideTitle }, pageArgs) {
                 $element,
                 goBack: () => {
                     navigateBackFromNestedPage({ parent, view, $nestedPage })
-                    if (pageArgs.callback) {
+                    if (pageArgs && pageArgs.callback) {
                         pageArgs.callback(pageArgs.callbackArgs)
                     }
                 }
@@ -316,7 +356,7 @@ function createListHandlersWorkoutCollection() {
         const $viewEle = ($li.is('[loadview]') ? $li : $li.find('[loadview]'))
         const view = $viewEle.attr('loadview')
         const viewargs = $viewEle.attr('loadviewargs')
-        const overrideTitle = ($li.is('[loadview') ? $li : $li.find('.title')).text()
+        const overrideTitle = $li.is('[loadview]') ? undefined : $li.find('.title').text()
         showNestedPage({
             parent: $li.closest('.page'),
             view,
@@ -342,7 +382,6 @@ function createListHandlersWorkoutCollection() {
 function getPageTitle() {
     const $title = selectedPage.find('.navigation .title')
     console.log($title)
-    debugger;
     return $title.text()
 }
 
@@ -371,12 +410,14 @@ function createSearchHandler() {
     })
 }
 
-function showInviteModal() {
-    modalService.popup({
-        title: `Invite!`,
-        message: `Enola has invited you for the workout<br>"Easy Chest Workout"<br>would you like to accept?`,
-        type: ModalService.MODAL_TYPES.YES_NO
-    })
+function showInviteModal(msg = `Enola has invited you to <b>"Easy Chest Workout"</b> <br>Click here to accept`) {
+    const $alert = $('.alerts')
+    if ($alert.hasClass('active')) {
+        return console.warn('Alert already showing!')
+    }
+    $alert.html(msg)
+    $alert.addClass('active')
+    setTimeout(_ => $alert.removeClass('active'), 5000)
 }
 
 function createProfileHandlers() {
@@ -416,6 +457,23 @@ function createProfileHandlers() {
     })
 }
 
+function createGoalsListener() {
+    const finish = () => {
+        $('.first-open').addClass('fade-out')
+    }
+    const nextStep = () => {
+        const $currentStep = $('.first-open .fo-step:not(.hidden)')
+        const $nextStep = $currentStep.next()
+        if ($nextStep.length === 0) {
+            return finish()
+        }
+        $currentStep.addClass('hidden')
+        $nextStep.removeClass('hidden')
+    }
+    $('.next-step').on('click', _ => nextStep())
+    $('.skip-step').on('click', _ => { nextStep(); nextStep(); })
+}
+
 function main() {
     console.log('main')
     $('[href="#"]').click(e => {
@@ -423,9 +481,6 @@ function main() {
     })
 
     $('[href="#back"]').click(e => navigateBackFromNestedPage())
-
-
-    
     
     initPages()
     setViewHeight()
@@ -437,6 +492,8 @@ function main() {
     createProfileHandlers()
     createTabbarHandlers()
     processUrlParams()
+
+    createGoalsListener()
 
     // Version B
     createFlyoutHandlers()
@@ -459,6 +516,10 @@ function processUrlParams() {
     $('.phone').css({ 'version': 'A' })
 }
 
+function getAllPaths() {
+    return allPaths
+}
+
 $(_ => {
     main()
 
@@ -475,6 +536,7 @@ $(_ => {
             createTabbarHandlers,
             selectPage,
             navigateBackFromNestedPage,
+            navigateBackFromNestedPages,
             showNestedPage,
             setViewHeight,
             setNestedPageHeight,
@@ -485,6 +547,7 @@ $(_ => {
             createSearchHandler,
             createProfileHandlers,
             showInviteModal
-        }
+        },
+        getAllPaths
     })
 })

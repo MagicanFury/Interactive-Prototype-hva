@@ -6,16 +6,21 @@ function gotoLevel($ele, view, callback) {
     }, { callback })
 }
 
-function onLevelFinished({ $element, $lvl }) {
+function onLevelFinished({ $element, $lvls, $lvl }) {
     console.log('FINISHED!')
-    $lvl.css({
-        'background-color': 'grey'
-    })
+    $lvl.css({ 'background-color': 'grey' })
+    $lvl.addClass('lv-finished')
+    const completedAllLvls = $lvls.toArray().map(e => $(e)).map($lv => $lv.hasClass('lv-finished')).reduce((a, b) => a && b)
+    if (completedAllLvls) {
+        gotoLevel($lvl, 'workout_finish', () => {
+            console.log('leaving workout_finish')
+        })
+    }
 }
 
 export default function(args) {
     return {
-        title: undefined,
+        title: 'Levels',
         $element: $(`
             <div class="container">
                 <div class="row text-center">

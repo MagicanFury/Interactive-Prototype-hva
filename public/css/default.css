@@ -232,7 +232,7 @@ a[href] {
 
 .footer a {
     text-align: center;
-    margin: 15px;
+    margin: 15px 0;
     flex: 1 1;
 }
 
@@ -605,6 +605,53 @@ a[href] {
     background: url(/img/videocall.png);
     height: 138px;
     border-radius: 11%;
+}
+
+.first-open {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 21px;
+    background: #fff;
+    z-index: 1;
+    text-align: center;
+    padding-top: 160px;
+    transition: opacity 0.3s ease-in;
+    opacity: 1;
+}
+
+.first-open.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.first-open input, .first-open label {
+    font-size: 20px;
+}
+
+.alerts {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    background: #fe6006;
+    color: #fff;
+    z-index: 2;
+    padding: 10px;
+    text-align: center;
+    border-radius: 9px;
+    box-shadow: 0 1px 4px 1px #0000005e;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+.alerts.active {
+    pointer-events: all;
+    opacity: 1;
 }
 
 /* ::-webkit-scrollbar-thumb {

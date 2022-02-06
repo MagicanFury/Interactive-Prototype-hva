@@ -24,7 +24,7 @@ function loadVideoCall(friends) {
 
 export default function(args) {
     return {
-        title: undefined,
+        title: 'Invite Friends',
         $element: $(`
             <div class="container full-height" style="background: var(--list-back-color)">
                 <div class="row text-center">
@@ -84,7 +84,11 @@ export default function(args) {
                     friends: friendCount,
                     loadview: args.viewargs
                 }
-                goBack()
+                // return goBack()
+                publicFunctions.showNestedPage({
+                    parent: $('.page.active'),
+                    view: args.viewargs
+                }, { friends: friendCount })
             })
         }
     }
