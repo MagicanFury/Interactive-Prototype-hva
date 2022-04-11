@@ -6,6 +6,7 @@ import workout_kneepushup from '../views/workout_kneepushup.js'
 import statistics_plank from '../views/statistics_plank.js'
 import statistics_kneepushup from '../views/statistics_kneepushup.js'
 import friends from '../views/friends.js'
+import privacy from '../views/privacy.js'
 
 const views = {
     workout_plank,
@@ -16,6 +17,7 @@ const views = {
     workout_levels,
     workout_finish,
     friends,
+    privacy
 }
 
 export class ViewService {

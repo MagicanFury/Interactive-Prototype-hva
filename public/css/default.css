@@ -410,7 +410,7 @@ a[href] {
     height: 100%;
 }
 
-.btn {
+.btn:not(.btn-sm) {
     font-size: 1.2em;
 }
 
@@ -657,3 +657,11 @@ a[href] {
 /* ::-webkit-scrollbar-thumb {
     background: #FF0000;
 } */
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}

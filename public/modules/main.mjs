@@ -10,6 +10,8 @@ const $flyout = $('.menu-flyout')
 const $footerLinks = $('.footer a')
 const $flyoutLinks = $('.menu-flyout [uid]')
 
+globalThis.allowCam = false
+
 let title = ''
 let selectedPage = null
 let selectedPageI = -1
@@ -142,6 +144,7 @@ function navigateBackFromNestedPages() {
         // const $nestedPage = $('[uid].page.active').find('.page.hasNestedPage').eq(0)
         navigateBackFromNestedPage({ parent: nestedPage.closest('.page.hasNestedPage'), $nestedPage: nestedPage })
     }
+    $('.videocall').remove()
 }
 
 function navigateBackFromNestedPage({ parent, $nestedPage }) {
@@ -166,6 +169,10 @@ function navigateBackFromNestedPage({ parent, $nestedPage }) {
         })
         $nestedPage = $closestNestedPage.length ? $closestNestedPage : null
         nestedPage = $nestedPage
+    }
+
+    if (currentPath.length === 1 && currentPath[0] == 'Workouts') {
+        $('.videocall').remove()
     }
 }
 
@@ -446,6 +453,13 @@ function createProfileHandlers() {
             overrideTitle: 'Friends'
         })
     })
+    $('[href="#privacy-settings"]').click(e => {
+        e.preventDefault()
+        showNestedPage({
+            parent: $(e.target).closest('.page'),
+            view: 'privacy'
+        })
+    })
     $('[href="#resetProfile"]').click(e => {
         e.preventDefault()
         modalService.popup({
@@ -520,6 +534,10 @@ function getAllPaths() {
     return allPaths
 }
 
+function getCurrentPath() {
+    return allPaths[currentPath[0]]
+}
+
 $(_ => {
     main()
 
@@ -548,6 +566,7 @@ $(_ => {
             createProfileHandlers,
             showInviteModal
         },
-        getAllPaths
+        getAllPaths,
+        getCurrentPath
     })
 })

@@ -39,8 +39,14 @@ export default function(args) {
                 <div class="row">
                     <div class="ios-scrollable">
                         <ul class="ios-list">
-                            <li class="title">Ivan</li>
-                            <li class="title">Enola</li>
+                            <li class="title">
+                                Ivan
+                                <button class="btn btn-warning btn-sm float-right">Invite</button>
+                            </li>
+                            <li class="title">
+                                Enola
+                                <button class="btn btn-warning btn-sm float-right">Invite</button>
+                            </li>
                             <li>
                                 <img class="social-xs" src="/img/whatsapp-xs.png">
                                 Invite Using Whatsapp
@@ -60,22 +66,34 @@ export default function(args) {
         onShow({ $element, goBack }) {
             console.log(args)
             const $proceed = $element.find('#proceedToWorkout')
-            $element.find('.ios-list li.title').each((_, li) => {
+            $element.find('.ios-list li.title button').each((_, li) => {
                 const $li = $(li)
                 $li.on('click', () => {
-                    $li.toggleClass('selected')
-                    if ($proceed.attr('disabled') == undefined) {
-                        $proceed.attr('disabled', 'disabled')
-                        let orgHtml = $proceed.html()
-                        $proceed.html('<i class="fas fa-spinner fa-pulse"> </i> Waiting For Friend...')
-                        setTimeout(_ => {
-                            $proceed.removeAttr('disabled')
-                            $proceed.find('i').remove()
-                            $proceed.text(orgHtml)
-                            const friendCount = $element.find('.ios-list li.selected').length
-                            loadVideoCall(friendCount)
-                        }, 5000)
+                    if ($li.hasClass('selected')) {
+                        return
                     }
+                    $li.addClass('selected')
+                    const $spinner = $(`<i class="fas fa-spinner fa-pulse"> </i>`)
+                    $li.prepend($spinner)
+                    setTimeout(_ => {
+                        $spinner.remove()
+                        $li.attr('disabled', 'disabled')
+                        const friendCount = $element.find('.ios-list li .selected').length
+                        loadVideoCall(friendCount)
+                    }, 5000)
+
+                    // if ($proceed.attr('disabled') == undefined) {
+                    //     $proceed.attr('disabled', 'disabled')
+                    //     let orgHtml = $proceed.html()
+                    //     $proceed.html('<i class="fas fa-spinner fa-pulse"> </i> Waiting For Friend...')
+                    //     setTimeout(_ => {
+                    //         $proceed.removeAttr('disabled')
+                    //         $proceed.find('i').remove()
+                    //         $proceed.text(orgHtml)
+                    //         const friendCount = $element.find('.ios-list li.selected').length
+                    //         loadVideoCall(friendCount)
+                    //     }, 5000)
+                    // }
                 })
             })
             $proceed.click(e => {

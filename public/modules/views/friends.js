@@ -33,19 +33,19 @@ export default function(args) {
             $element.find('.ios-list li.title').each((_, li) => {
                 const $li = $(li)
                 $li.on('click', () => {
-                    $li.toggleClass('selected')
-                    if ($proceed.attr('disabled') == undefined) {
-                        $proceed.attr('disabled', 'disabled')
-                        let orgHtml = $proceed.html()
-                        $proceed.html('<i class="fas fa-spinner fa-pulse"> </i> Waiting For Friend...')
-                        setTimeout(_ => {
-                            $proceed.removeAttr('disabled')
-                            $proceed.find('i').remove()
-                            $proceed.text(orgHtml)
-                            const friendCount = $element.find('.ios-list li.selected').length
-                            loadVideoCall(friendCount)
-                        }, 5000)
-                    }
+                    // $li.toggleClass('selected')
+                    // if ($proceed.attr('disabled') == undefined) {
+                    //     $proceed.attr('disabled', 'disabled')
+                    //     let orgHtml = $proceed.html()
+                    //     $proceed.html('<i class="fas fa-spinner fa-pulse"> </i> Waiting For Friend...')
+                    //     setTimeout(_ => {
+                    //         $proceed.removeAttr('disabled')
+                    //         $proceed.find('i').remove()
+                    //         $proceed.text(orgHtml)
+                    //         const friendCount = $element.find('.ios-list li.selected').length
+                    //         loadVideoCall(friendCount)
+                    //     }, 5000)
+                    // }
                 })
             })
             $proceed.click(e => {
